@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.31.2)
 set(This DSA-CPP-Tests)
 
 set(Sources
-    ArrayQueueStudentTest.cpp
+    QueueStudentTest.cpp
 )
 
 add_executable(${This} ${Sources})

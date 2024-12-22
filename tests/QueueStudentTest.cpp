@@ -6,7 +6,7 @@
 
 #include "../src/ArrayQueue.hpp"
 
-struct ArrayQueueStudentTest : public ::testing::Test {
+struct QueueStudentTest : public ::testing::Test {
     const int TIMEOUT = 200;
     ArrayQueue* array;
 
@@ -19,14 +19,14 @@ struct ArrayQueueStudentTest : public ::testing::Test {
     }
 };
 
-TEST_F(ArrayQueueStudentTest, TestInitialization) {
+TEST_F(QueueStudentTest, TestInitialization) {
     ASSERT_EQ(0, array->getSize());
     // assertArrayEquals(new Object[ArrayQueue.INITIAL_CAPACITY], array->getBackingArray());
     // std::string other[array->INITIAL_CAPACITY];
     // ASSERT_TRUE(std::memcmp(other, array, sizeof(other)) == 0);
 }
 
-TEST_F(ArrayQueueStudentTest, TestArrayEnqueue) {
+TEST_F(QueueStudentTest, TestArrayEnqueue) {
     array->enqueue("0a");    // 0a
     array->enqueue("1a");    // 0a, 1a
     array->enqueue("2a");    // 0a, 1a, 2a
@@ -46,7 +46,7 @@ TEST_F(ArrayQueueStudentTest, TestArrayEnqueue) {
     ASSERT_TRUE(std::memcmp(expected, array, sizeof(expected) * sizeof(std::string)));
 }
 
-TEST_F(ArrayQueueStudentTest, TestArrayPop) {
+TEST_F(QueueStudentTest, TestArrayPop) {
     std::string temp = "0a";
 
     array->enqueue(temp);    // 0a
@@ -73,7 +73,7 @@ TEST_F(ArrayQueueStudentTest, TestArrayPop) {
     ASSERT_TRUE(std::memcmp(expected, array, sizeof(expected) * sizeof(std::string)));
 }
 
-TEST_F(ArrayQueueStudentTest, TestArrayPeek) {
+TEST_F(QueueStudentTest, TestArrayPeek) {
     std::string temp = "0a";
 
     array->enqueue(temp);    // 0a
