@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 3.31.2)
 
 set(This DSA-CPP)
 
-# set(Headers
+set(Headers
+    BinarySearchTree.hpp
+)
 
-# )
+set(Sources
+    BinarySearchTree.cpp
+)
 
-# set(Sources
-
-# )
-
-# add_library(${This} STATIC ${Sources} ${Headers})
+add_library(${This} STATIC ${Sources} ${Headers})
