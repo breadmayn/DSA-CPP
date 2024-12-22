@@ -27,6 +27,12 @@ private:
 
 public:
     /**
+     * Default Constructor for the SinglyLinkedList.
+     */
+    SinglyLinkedList():
+        head(nullptr), tail(nullptr), size(0) {}
+        
+    /**
      * Adds the element to the specified index
      * 
      * Must be O(1) for indices 0 and size and O(n) for all other cases.
@@ -130,7 +136,7 @@ public:
      * @throws std::invalid_argument if the data is null
      * @throws std::out_of_range if the data was not found in the list
      */
-    std::string removeLastOccurance(std::string data);
+    std::string removeLastOccurence(std::string data);
 
     /**
      * Returns an array representation of the linked list

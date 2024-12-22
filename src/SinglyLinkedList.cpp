@@ -48,7 +48,16 @@ void SinglyLinkedList::addAtIndex(int index, std::string newData)
  */
 void SinglyLinkedList::addToFront(std::string newData)
 {
+    if (newData.size() == 0)
+        throw std::invalid_argument("The data arg passed in is null(empty).");
 
+    SinglyLinkedListNode* newNode = new SinglyLinkedListNode(newData);
+
+    if (this->isEmpty()) this->tail = newNode;
+    else newNode->next = this->head;
+
+    this->head = newNode;
+    this->size++;
 }
 
 /**
@@ -61,7 +70,16 @@ void SinglyLinkedList::addToFront(std::string newData)
  */
 void SinglyLinkedList::addToBack(std::string newData)
 {
+    if (newData.size() == 0)
+        throw std::invalid_argument("The data arg passed in is null.");
 
+    SinglyLinkedListNode* newNode = new SinglyLinkedListNode(newData);
+
+    if (this->isEmpty()) this->head = newNode;
+    else this->tail->next = newNode;
+
+    this->tail = newNode;
+    this->size++;
 }
 
 /**
@@ -75,7 +93,31 @@ void SinglyLinkedList::addToBack(std::string newData)
  */
 std::string SinglyLinkedList::removeAtIndex(int index)
 {
+    if (index < 0 || index >= this->size)
+        throw std::out_of_range("The value of the index parameter is out of bounds.");
 
+    if (index == 0) return this->removeFromFront();
+    else if (index == (size - 1)) return this->removeFromBack();
+    else
+    {
+        if (this->isEmpty())
+            throw std::out_of_range("The list is empty so we cannot remove anything.");
+
+        SinglyLinkedListNode* current = this->head;
+
+        for (int i = 0; i < (index - 1); i++)
+        {
+            current = current->next;
+        }
+
+        std::string toRemove = current->next->data;
+        SinglyLinkedListNode* removedNode = current->next;
+        current->next = current->next->next;
+        delete removedNode;
+
+        this->size--;
+        return toRemove;
+    }
 }
 
 /**
@@ -88,7 +130,20 @@ std::string SinglyLinkedList::removeAtIndex(int index)
  */
 std::string SinglyLinkedList::removeFromFront()
 {
+    if (this->isEmpty())
+        throw std::out_of_range("The list is empty so we cannot remove anything.");
 
+    std::string toRemove = this->head->data;
+
+    if (this->size == 1) this->tail = nullptr;
+
+    SinglyLinkedListNode* next = this->head->next;
+    delete this->head;
+
+    this->head = next;
+
+    this->size--;
+    return toRemove;
 }
 
 /**
@@ -101,7 +156,35 @@ std::string SinglyLinkedList::removeFromFront()
  */
 std::string SinglyLinkedList::removeFromBack()
 {
+    if (this->isEmpty())
+        throw std::out_of_range("The list is empty so we cannot remove anything.");
 
+    std::string toRemove = this->tail->data;
+
+    if (this->size == 1)
+    {
+        delete this->tail;
+
+        head = nullptr;
+        tail = nullptr;
+    }
+    else
+    {
+        SinglyLinkedListNode* current = head;
+
+        while (current->next->next)
+        {
+            current = current->next;
+        }
+
+        delete this->tail;
+
+        this->tail = current;
+        this->tail->next = nullptr;
+    }
+
+    this->size--;
+    return toRemove;
 }
 
 /**
@@ -115,7 +198,17 @@ std::string SinglyLinkedList::removeFromBack()
  */
 std::string SinglyLinkedList::get(int index)
 {
+    if (index < 0 || index >= this->size)
+        throw std::out_of_range("The index arg passed in is out of bounds.");
+    
+    SinglyLinkedListNode* current = this->head;
 
+    for (int i = 0; i < index; i++)
+    {
+        current = current->next;
+    }
+
+    return current->data;
 }
 
 /**
@@ -168,9 +261,45 @@ void SinglyLinkedList::clear()
  * @throws std::invalid_argument if the data is null
  * @throws std::out_of_range if the data was not found in the list
  */
-std::string SinglyLinkedList::removeLastOccurance(std::string data)
+std::string SinglyLinkedList::removeLastOccurence(std::string data)
 {
+    if (data.size() == 0)
+        throw std::invalid_argument("The data arg passed in is null.");
 
+    if (this->isEmpty())
+        throw std::out_of_range("The list is empty, so we cannot find the data passed in.");
+
+    SinglyLinkedListNode* current = head;
+    SinglyLinkedListNode* toRemove = nullptr;
+
+    while (current->next)
+    {
+        if (current->next->data == data) toRemove = current;
+
+        current = current->next;
+    }
+
+    if (toRemove == nullptr)
+    {
+        if (this->head->data == data) return this->removeFromFront();
+        else throw std::out_of_range("The data passed in was not found in the list.");
+    }
+    else
+    {
+        std::string removeData;
+        if (size == 1) return this->removeFromBack();
+        else
+        {
+            current = toRemove;
+            toRemove = current->next;
+            current->next = current->next->next;
+            this->size--;
+            removeData = toRemove->data;
+            delete toRemove;
+            
+            return removeData;
+        }
+    }
 }
 
 /**
@@ -185,7 +314,11 @@ std::vector<std::string> SinglyLinkedList::toArray()
     std::vector<std::string> ret(this->size);
     SinglyLinkedList::SinglyLinkedListNode* current = this->head;
 
-    for (int i = 0; i < ret.size(); i++) ret[i] = current->data;
+    for (int i = 0; i < ret.size(); i++)
+    {
+        ret[i] = current->data;
+        current = current->next;
+    }
 
     return ret;
 }
