@@ -1,4 +1,4 @@
-#include "../src/ArrayStack.hpp"
+#include "ArrayStack.hpp"
 
 /**
  * Adds the data to the top of that stack.
@@ -48,8 +48,8 @@ std::string ArrayStack::pop()
         throw std::out_of_range("The stack is empty - nothing to remove.");
 
     std::string removed = this->backingArray[this->size - 1];
-    this->backingArray[size - 1] = "";
-    size--;
+    this->backingArray[this->size - 1] = "";
+    this->size--;
 
     return removed;
 }

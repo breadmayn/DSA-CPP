@@ -4,10 +4,12 @@ set(This DSA-CPP)
 
 set(Headers
     ArrayQueue.hpp
+    ArrayStack.hpp
 )
 
 set(Sources
     ArrayQueue.cpp
+    ArrayStack.cpp
 )
 
 add_library(${This} STATIC ${Sources} ${Headers})

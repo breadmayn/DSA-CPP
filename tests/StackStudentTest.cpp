@@ -47,7 +47,7 @@ TEST_F(StackStudentTest, TestArrayPush) {
 }
 
 TEST_F(StackStudentTest, TestArrayPop) {
-    std::string temp = "0a";
+    std::string temp = "5a";
 
     array->push(temp);    // 0a
     array->push("1a");    // 0a, 1a
@@ -74,7 +74,7 @@ TEST_F(StackStudentTest, TestArrayPop) {
 }
 
 TEST_F(StackStudentTest, TestArrayPeek) {
-    std::string temp = "0a";
+    std::string temp = "4a";
 
     array->push(temp);    // 0a
     array->push("1a");    // 0a, 1a
