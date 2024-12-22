@@ -6,12 +6,14 @@ set(Headers
     ArrayQueue.hpp
     ArrayStack.hpp
     LinkedQueue.hpp
+    LinkedStack.hpp
 )
 
 set(Sources
     ArrayQueue.cpp
     ArrayStack.cpp
     LinkedQueue.cpp
+    LinkedStack.cpp
 )
 
 add_library(${This} STATIC ${Sources} ${Headers})

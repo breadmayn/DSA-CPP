@@ -5,25 +5,30 @@
 #include <string>
 
 #include "../src/ArrayStack.hpp"
+#include "../src/LinkedStack.hpp"
 
 struct StackStudentTest : public ::testing::Test {
     const int TIMEOUT = 200;
     ArrayStack* array;
+    LinkedStack* linked;
 
     virtual void SetUp() override {
         array = new ArrayStack();
+        linked = new LinkedStack();
     }
 
     virtual void TearDown() override {
         delete array;
+        delete linked;
     }
 };
 
 TEST_F(StackStudentTest, TestInitialization) {
     ASSERT_EQ(0, array->getSize());
     // assertArrayEquals(new Object[ArrayQueue.INITIAL_CAPACITY], array->getBackingArray());
-    // std::string other[array->INITIAL_CAPACITY];
-    // ASSERT_TRUE(std::memcmp(other, array, sizeof(other)) == 0);
+
+    ASSERT_EQ(0, linked->getSize());
+    ASSERT_EQ(nullptr, linked->getHead());
 }
 
 TEST_F(StackStudentTest, TestArrayPush) {
@@ -84,4 +89,89 @@ TEST_F(StackStudentTest, TestArrayPeek) {
     ASSERT_EQ(5, array->getSize());
 
     ASSERT_EQ(temp, array->peek());
+}
+
+TEST_F(StackStudentTest, TestLinkedPush) {
+    linked->push("0a");  // 0a
+    linked->push("1a");  // 1a, 0a
+    linked->push("2a");  // 2a, 1a 0a
+    linked->push("3a");  // 3a, 2a, 1a 0a
+    linked->push("4a");  // 4a, 3a, 2a, 1a 0a
+
+    ASSERT_EQ(5, linked->getSize());
+
+    Node* current = linked->getHead();
+    ASSERT_NE(nullptr, current);
+    ASSERT_EQ("4a", current->data);
+
+    current = current->next;
+    ASSERT_NE(nullptr, current);
+    ASSERT_EQ("3a", current->data);
+
+    current = current->next;
+    ASSERT_NE(nullptr, current);
+    ASSERT_EQ("2a", current->data);
+
+    current = current->next;
+    ASSERT_NE(nullptr, current);
+    ASSERT_EQ("1a", current->data);
+
+    current = current->next;
+    ASSERT_NE(nullptr, current);
+    ASSERT_EQ("0a", current->data);
+
+    current = current->next;
+    ASSERT_EQ(nullptr, current);
+}
+
+TEST_F(StackStudentTest, TestLinkedPop) {
+    std::string temp = "5a";
+
+    linked->push("0a");  // 0a
+    linked->push("1a");  // 1a, 0a
+    linked->push("2a");  // 2a, 1a, 0a
+    linked->push("3a");  // 3a, 2a, 1a, 0a
+    linked->push("4a");  // 4a, 3a, 2a, 1a, 0a
+    linked->push(temp);  // 5a, 4a, 3a, 2a, 1a, 0a
+    ASSERT_EQ(6, linked->getSize());
+
+    ASSERT_EQ(temp, linked->pop()); // 4a, 3a, 2a, 1a, 0a
+
+    ASSERT_EQ(5, linked->getSize());
+
+    Node* current = linked->getHead();
+    ASSERT_NE(nullptr, current);
+    ASSERT_EQ("4a", current->data);
+
+    current = current->next;
+    ASSERT_NE(nullptr, current);
+    ASSERT_EQ("3a", current->data);
+
+    current = current->next;
+    ASSERT_NE(nullptr, current);
+    ASSERT_EQ("2a", current->data);
+
+    current = current->next;
+    ASSERT_NE(nullptr, current);
+    ASSERT_EQ("1a", current->data);
+
+    current = current->next;
+    ASSERT_NE(nullptr, current);
+    ASSERT_EQ("0a", current->data);
+
+    current = current->next;
+    ASSERT_EQ(nullptr, current);
+}
+
+TEST_F(StackStudentTest, TestLinkedPeek) {
+    std::string temp = "4a";
+
+    linked->push("0a");  // 0a
+    linked->push("1a");  // 1a, 0a
+    linked->push("2a");  // 2a, 1a, 0a
+    linked->push("3a");  // 3a, 2a, 1a, 0a
+    linked->push(temp);  // 4a, 3a, 2a, 1a, 0a
+    ASSERT_EQ(5, linked->getSize());
+
+    ASSERT_EQ(temp, linked->peek());
 }
