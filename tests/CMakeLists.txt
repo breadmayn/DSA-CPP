@@ -4,6 +4,7 @@ set(This DSA-CPP-Tests)
 
 set(Sources
     QueueStudentTest.cpp
+    StackStudentTest.cpp
 )
 
 add_executable(${This} ${Sources})
