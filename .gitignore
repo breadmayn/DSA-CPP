@@ -31,8 +31,9 @@
 *.out
 *.app
 
-# MacOS
+# MacOS / VSCode
 .DS_Store
+.vscode
 
 # GoogleTest
 googletest/
