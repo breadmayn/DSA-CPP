@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.31.2)
 
-set(CMAKE_OSX_ARCHITECTURES "arm64")
-
 set(This DSA-CPP)
 
 project(${This} C CXX)

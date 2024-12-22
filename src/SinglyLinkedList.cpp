@@ -1,4 +1,4 @@
-#include "SinglyLinkedList.hpp"
+#include "SinglyLinkedList.h"
 #include <stdexcept>
 
 
@@ -369,5 +369,3 @@ uint64_t SinglyLinkedList<T>::getSize()
 {
     return this->size;
 }
-
-template struct SinglyLinkedList<std::string>;
