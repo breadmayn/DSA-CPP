@@ -9,7 +9,7 @@ public:
     class SinglyLinkedListNode {
     private:
         T data;
-        SinglyLinkedList* next;
+        SinglyLinkedListNode* next;
 
     public:
         SinglyLinkedListNode(T data, SinglyLinkedListNode next):
@@ -19,13 +19,13 @@ public:
             data(data), next(nullptr) {}
 
         SinglyLinkedListNode():
-            data(-1), next(nullptr) {}
+            data(), next(nullptr) {}
 
         // Node methods
         T getData() { return this->data; }
         void setData(T newData) { this->data = newData; }
 
-        SinglyLinkedList* getNext() { return this->next; }
+        SinglyLinkedListNode* getNext() { return this->next; }
         void setNext(SinglyLinkedList* newNext) { this->next = newNext; }
     };
 
@@ -35,6 +35,9 @@ private:
     uint64_t size;
 
 public:
+    SinglyLinkedList():
+        head(nullptr), tail(nullptr), size(0) {}
+    
     void addAtIndex(int index, T newData);
     void addToFront(T newData);
     void addToBack(T newData);

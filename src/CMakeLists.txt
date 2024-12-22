@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.31.2)
 set(This DSA-CPP)
 
 set(Headers
-    SinglyLinkedList.h
+    SinglyLinkedList.hpp
 )
 
 set(Sources
