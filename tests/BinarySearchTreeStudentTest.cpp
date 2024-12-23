@@ -5,6 +5,7 @@
 #include "../src/BinarySearchTree.hpp"
 
 struct BinarySearchTreeStudentTest : public ::testing::Test {
+    
 
     virtual void SetUp() override {
 
