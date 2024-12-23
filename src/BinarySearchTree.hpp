@@ -198,8 +198,8 @@ public:
      * 
      * @return the size of the tree
      */
-    Node* getSize() { return this->size; }
+    int getSize() { return this->size; }
 
 #pragma mark - LeetCode Questions
-    
+
 };
