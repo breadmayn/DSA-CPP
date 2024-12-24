@@ -6,20 +6,21 @@
 
 struct BinarySearchTreeStudentTest : public ::testing::Test {
     const int TIMEOUT = 200;
-    BinarySearchTree<int> tree;
+    BinarySearchTree<int>* tree;
 
     virtual void SetUp() override {
-        tree = BinarySearchTree<int>();
+        tree = new BinarySearchTree<int>();
     }
 
     virtual void TearDown() override {
-        tree.clear();
+        tree->clear();
+        delete tree;
     }
 };
 
 TEST_F(BinarySearchTreeStudentTest, TestInitialization) {
-    ASSERT_EQ(0, tree.getSize());
-    ASSERT_EQ(nullptr, tree.getRoot());
+    ASSERT_EQ(0, tree->getSize());
+    ASSERT_EQ(nullptr, tree->getRoot());
 }
 
 TEST_F(BinarySearchTreeStudentTest, TestConstructor) {
@@ -35,12 +36,12 @@ TEST_F(BinarySearchTreeStudentTest, TestConstructor) {
     data.push_back(2);
     data.push_back(0);
     data.push_back(1);
-    tree = BinarySearchTree<int>(data);
+    tree = new BinarySearchTree<int>(data);
 
-    ASSERT_EQ(3, tree.getSize());
-    ASSERT_EQ(2, tree.getRoot()->data);
-    ASSERT_EQ(0, tree.getRoot()->left->data);
-    ASSERT_EQ(1, tree.getRoot()->left->right->data);
+    ASSERT_EQ(3, tree->getSize());
+    ASSERT_EQ(2, tree->getRoot()->data);
+    ASSERT_EQ(0, tree->getRoot()->left->data);
+    ASSERT_EQ(1, tree->getRoot()->left->right->data);
 }
 
 TEST_F(BinarySearchTreeStudentTest, TestAdd) {
@@ -50,15 +51,15 @@ TEST_F(BinarySearchTreeStudentTest, TestAdd) {
             0   2
     */
 
-    tree.add(1);
-    tree.add(0);
-    tree.add(2);
+    tree->add(1);
+    tree->add(0);
+    tree->add(2);
 
-    ASSERT_EQ(3, tree.getSize());
+    ASSERT_EQ(3, tree->getSize());
 
-    ASSERT_EQ(1, tree.getRoot()->data);
-    ASSERT_EQ(0, tree.getRoot()->left->data);
-    ASSERT_EQ(2, tree.getRoot()->right->data);
+    ASSERT_EQ(1, tree->getRoot()->data);
+    ASSERT_EQ(0, tree->getRoot()->left->data);
+    ASSERT_EQ(2, tree->getRoot()->right->data);
 }
 
 TEST_F(BinarySearchTreeStudentTest, TestRemove) {
@@ -82,24 +83,24 @@ TEST_F(BinarySearchTreeStudentTest, TestRemove) {
                   4
     */
 
-    tree.add(1);
-    tree.add(0);
-    tree.add(temp);
-    tree.add(3);
-    tree.add(4);
-    ASSERT_EQ(5, tree.getSize());
+    tree->add(1);
+    tree->add(0);
+    tree->add(temp);
+    tree->add(3);
+    tree->add(4);
+    ASSERT_EQ(5, tree->getSize());
 
-    ASSERT_EQ(temp, tree.remove(2));
+    ASSERT_EQ(temp, tree->remove(2));
 
-    ASSERT_EQ(4, tree.getSize());
+    ASSERT_EQ(4, tree->getSize());
 
-    ASSERT_EQ(1, tree.getRoot()->data);
-    ASSERT_EQ(0, tree.getRoot()->left->data);
-    ASSERT_EQ(3, tree.getRoot()->right->data);
-    ASSERT_EQ(4, tree.getRoot()->right->right->data);
+    ASSERT_EQ(1, tree->getRoot()->data);
+    ASSERT_EQ(0, tree->getRoot()->left->data);
+    ASSERT_EQ(3, tree->getRoot()->right->data);
+    ASSERT_EQ(4, tree->getRoot()->right->right->data);
 
     temp = 1;
-    tree = BinarySearchTree<int>();
+    tree = new BinarySearchTree<int>();
 
     /*
               1
@@ -119,21 +120,21 @@ TEST_F(BinarySearchTreeStudentTest, TestRemove) {
                   4
     */
 
-    tree.add(temp);
-    tree.add(0);
-    tree.add(2);
-    tree.add(3);
-    tree.add(4);
-    ASSERT_EQ(5, tree.getSize());
+    tree->add(temp);
+    tree->add(0);
+    tree->add(2);
+    tree->add(3);
+    tree->add(4);
+    ASSERT_EQ(5, tree->getSize());
 
-    ASSERT_EQ(temp, tree.remove(1));
+    ASSERT_EQ(temp, tree->remove(1));
 
-    ASSERT_EQ(4, tree.getSize());
+    ASSERT_EQ(4, tree->getSize());
 
-    ASSERT_EQ(2, tree.getRoot()->data);
-    ASSERT_EQ(0, tree.getRoot()->left->data);
-    ASSERT_EQ(3, tree.getRoot()->right->data);
-    ASSERT_EQ(4, tree.getRoot()->right->right->data);
+    ASSERT_EQ(2, tree->getRoot()->data);
+    ASSERT_EQ(0, tree->getRoot()->left->data);
+    ASSERT_EQ(3, tree->getRoot()->right->data);
+    ASSERT_EQ(4, tree->getRoot()->right->right->data);
 }
 
 TEST_F(BinarySearchTreeStudentTest, TestGet) {
@@ -155,25 +156,25 @@ TEST_F(BinarySearchTreeStudentTest, TestGet) {
             195     210
     */
 
-    tree.add(temp200);
-    tree.add(temp185);
-    tree.add(temp190);
-    tree.add(temp195);
-    tree.add(temp215);
-    tree.add(temp205);
-    tree.add(temp210);
-    ASSERT_EQ(7, tree.getSize());
+    tree->add(temp200);
+    tree->add(temp185);
+    tree->add(temp190);
+    tree->add(temp195);
+    tree->add(temp215);
+    tree->add(temp205);
+    tree->add(temp210);
+    ASSERT_EQ(7, tree->getSize());
 
     // We want to make sure the data we retrieve is the one from the tree,
     // not the data that was passed in. The Integers need to be outside of
     // the range [-128, 127] so that they are not cached.
-    ASSERT_EQ(temp185, tree.get(185));
-    ASSERT_EQ(temp190, tree.get(190));
-    ASSERT_EQ(temp195, tree.get(195));
-    ASSERT_EQ(temp200, tree.get(200));
-    ASSERT_EQ(temp205, tree.get(205));
-    ASSERT_EQ(temp210, tree.get(210));
-    ASSERT_EQ(temp215, tree.get(215));
+    ASSERT_EQ(temp185, tree->get(185));
+    ASSERT_EQ(temp190, tree->get(190));
+    ASSERT_EQ(temp195, tree->get(195));
+    ASSERT_EQ(temp200, tree->get(200));
+    ASSERT_EQ(temp205, tree->get(205));
+    ASSERT_EQ(temp210, tree->get(210));
+    ASSERT_EQ(temp215, tree->get(215));
 }
 
 TEST_F(BinarySearchTreeStudentTest, TestContains) {
@@ -187,35 +188,35 @@ TEST_F(BinarySearchTreeStudentTest, TestContains) {
                 2   5
     */
 
-    tree.add(3);
-    tree.add(0);
-    tree.add(1);
-    tree.add(2);
-    tree.add(6);
-    tree.add(4);
-    tree.add(5);
-    ASSERT_EQ(7, tree.getSize());
+    tree->add(3);
+    tree->add(0);
+    tree->add(1);
+    tree->add(2);
+    tree->add(6);
+    tree->add(4);
+    tree->add(5);
+    ASSERT_EQ(7, tree->getSize());
 
-    ASSERT_TRUE(tree.contains(0));
-    ASSERT_TRUE(tree.contains(1));
-    ASSERT_TRUE(tree.contains(2));
-    ASSERT_TRUE(tree.contains(3));
-    ASSERT_TRUE(tree.contains(4));
-    ASSERT_TRUE(tree.contains(5));
-    ASSERT_TRUE(tree.contains(6));
+    ASSERT_TRUE(tree->contains(0));
+    ASSERT_TRUE(tree->contains(1));
+    ASSERT_TRUE(tree->contains(2));
+    ASSERT_TRUE(tree->contains(3));
+    ASSERT_TRUE(tree->contains(4));
+    ASSERT_TRUE(tree->contains(5));
+    ASSERT_TRUE(tree->contains(6));
 }
 
 TEST_F(BinarySearchTreeStudentTest, TestPreorder) {
-    tree.add(3);
-    tree.add(0);
-    tree.add(1);
-    tree.add(2);
-    tree.add(8);
-    tree.add(4);
-    tree.add(6);
-    tree.add(5);
-    tree.add(7);
-    ASSERT_EQ(9, tree.getSize());
+    tree->add(3);
+    tree->add(0);
+    tree->add(1);
+    tree->add(2);
+    tree->add(8);
+    tree->add(4);
+    tree->add(6);
+    tree->add(5);
+    tree->add(7);
+    ASSERT_EQ(9, tree->getSize());
 
     std::vector<int> preorder;
     preorder.push_back(3);
@@ -230,21 +231,21 @@ TEST_F(BinarySearchTreeStudentTest, TestPreorder) {
 
 
     // Should be [3, 0, 1, 2, 8, 4, 6, 5, 7]
-    std::vector<int> studentResult = tree.preOrder();
+    std::vector<int> studentResult = tree->preOrder();
     for (int i = 0; i < preorder.size(); i++) EXPECT_EQ(preorder[i], studentResult[i]);
 }
 
 TEST_F(BinarySearchTreeStudentTest, TestInorder) {
-    tree.add(3);
-    tree.add(0);
-    tree.add(1);
-    tree.add(2);
-    tree.add(8);
-    tree.add(4);
-    tree.add(6);
-    tree.add(5);
-    tree.add(7);
-    ASSERT_EQ(9, tree.getSize());
+    tree->add(3);
+    tree->add(0);
+    tree->add(1);
+    tree->add(2);
+    tree->add(8);
+    tree->add(4);
+    tree->add(6);
+    tree->add(5);
+    tree->add(7);
+    ASSERT_EQ(9, tree->getSize());
 
     std::vector<int> inorder;
     inorder.push_back(0);
@@ -258,7 +259,7 @@ TEST_F(BinarySearchTreeStudentTest, TestInorder) {
     inorder.push_back(8);
 
     // Should be [0, 1, 2, 3, 4, 5, 6, 7, 8]
-    std::vector<int> studentResult = tree.inOrder();
+    std::vector<int> studentResult = tree->inOrder();
     for (int i = 0; i < inorder.size(); i++) EXPECT_EQ(inorder[i], studentResult[i]);
 }
 
@@ -275,16 +276,16 @@ TEST_F(BinarySearchTreeStudentTest, TestPostorder) {
                   5   7
     */
 
-    tree.add(3);
-    tree.add(0);
-    tree.add(1);
-    tree.add(2);
-    tree.add(8);
-    tree.add(4);
-    tree.add(6);
-    tree.add(5);
-    tree.add(7);
-    ASSERT_EQ(9, tree.getSize());
+    tree->add(3);
+    tree->add(0);
+    tree->add(1);
+    tree->add(2);
+    tree->add(8);
+    tree->add(4);
+    tree->add(6);
+    tree->add(5);
+    tree->add(7);
+    ASSERT_EQ(9, tree->getSize());
 
     std::vector<int> postorder;
     postorder.push_back(2);
@@ -298,7 +299,7 @@ TEST_F(BinarySearchTreeStudentTest, TestPostorder) {
     postorder.push_back(3);
 
     // Should be [2, 1, 0, 5, 7, 6, 4, 8, 3]
-    std::vector<int> studentResult = tree.postOrder();
+    std::vector<int> studentResult = tree->postOrder();
     for (int i = 0; i < postorder.size(); i++) EXPECT_EQ(postorder[i], studentResult[i]);
 }
 
@@ -315,16 +316,16 @@ TEST_F(BinarySearchTreeStudentTest, TestLevelOrder) {
                   5   7
     */
 
-    tree.add(3);
-    tree.add(0);
-    tree.add(1);
-    tree.add(2);
-    tree.add(8);
-    tree.add(4);
-    tree.add(6);
-    tree.add(5);
-    tree.add(7);
-    ASSERT_EQ(9, tree.getSize());
+    tree->add(3);
+    tree->add(0);
+    tree->add(1);
+    tree->add(2);
+    tree->add(8);
+    tree->add(4);
+    tree->add(6);
+    tree->add(5);
+    tree->add(7);
+    ASSERT_EQ(9, tree->getSize());
 
     std::vector<int> levelorder;
     levelorder.push_back(3);
@@ -338,7 +339,7 @@ TEST_F(BinarySearchTreeStudentTest, TestLevelOrder) {
     levelorder.push_back(7);
 
     // Should be [3, 0, 8, 1, 4, 2, 6, 5, 7]
-    std::vector<int> studentResult = tree.levelOrder();
+    std::vector<int> studentResult = tree->levelOrder();
     for (int i = 0; i < levelorder.size(); i++) EXPECT_EQ(levelorder[i], studentResult[i]);
 }
 
@@ -351,12 +352,12 @@ TEST_F(BinarySearchTreeStudentTest, TestHeight) {
               1
     */
 
-    tree.add(2);
-    tree.add(0);
-    tree.add(1);
-    ASSERT_EQ(3, tree.getSize());
+    tree->add(2);
+    tree->add(0);
+    tree->add(1);
+    ASSERT_EQ(3, tree->getSize());
 
-    ASSERT_EQ(2, tree.height());
+    ASSERT_EQ(2, tree->height());
 }
 
 TEST_F(BinarySearchTreeStudentTest, TestClear) {
@@ -368,12 +369,12 @@ TEST_F(BinarySearchTreeStudentTest, TestClear) {
               1
     */
 
-    tree.add(2);
-    tree.add(0);
-    tree.add(1);
-    ASSERT_EQ(3, tree.getSize());
+    tree->add(2);
+    tree->add(0);
+    tree->add(1);
+    ASSERT_EQ(3, tree->getSize());
 
-    tree.clear();
-    ASSERT_EQ(0, tree.getSize());
-    ASSERT_EQ(nullptr, tree.getRoot());
+    tree->clear();
+    ASSERT_EQ(0, tree->getSize());
+    ASSERT_EQ(nullptr, tree->getRoot());
 }
